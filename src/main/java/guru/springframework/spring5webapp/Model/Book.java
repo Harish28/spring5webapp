@@ -1,5 +1,7 @@
 package guru.springframework.spring5webapp.Model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -16,12 +18,22 @@ public class Book {
     @JoinTable(name = "author_book",joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private Set<Author> authors = new HashSet<>();
+    @ManyToOne
+    private Publisher publisher;
     public Book() {
     }
 
     public Book(String author, String isbn) {
         this.author = author;
         this.isbn = isbn;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 
     public Long getId() {
@@ -75,7 +87,6 @@ public class Book {
                 "id=" + id +
                 ", author='" + author + '\'' +
                 ", isbn='" + isbn + '\'' +
-                ", authors=" + authors +
                 '}';
     }
 }
